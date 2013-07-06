@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Torck!</title>
+
+<style>
+
+	body {
+		background-color: #FFF;
+	}
+
+	#canvas {
+		background-color: #234;
+		border: 1px solid #000000;
+	}
+
+	.image {
+    display: none;
+	}	
+
+</style>
+
+<audio preload="true" id="backgroundTheme">
+	<source src="sound/WeltHerrschererTheme1.mmpz" />
+	<source src="sound/WeltHerrschererTheme1.ogg" />
+</audio>
+
+<audio preload="true" id="collide">
+	<!--source src="http://dl.dropbox.com/u/26141789/canvas/pingpong/Metal%20Cling%20-%20Hit.mp3" /-->
+	<source src="sound/metal_button.wav" />
+</audio>
+
+</head>
+
+<body onload="init()">
+	<img id="king" class="image" src="images/king.png">
+	<img id="eroded_wood" class="image" src="images/eroded_wood.jpg">
+	<img id="concrete" class="image" src="images/concrete.jpg">
+	<img id="schaumstoff" class="image" src="images/schaumstoff.jpg">
+	<img id="bloeder_ball" class="image" src="images/bloeder_ball.png">
+	<img id="eis" class="image" src="images/eis.jpg">
+	<img id="cloud" class="image" src="images/cloud.png">
+	<img id="wagonWheel_01" class="image" src="images/wagonWheel_01.png">
+	<img id="wagonWheel_02" class="image" src="images/wagonWheel_02.png">
+	<img id="oldGreyWood" class="image" src="images/oldGreyWood.jpg">
+	
+	<!--canvas id="canvas" width="800" height="600"></canvas-->
+
+	<canvas id="canvas" width="1200" height="600"></canvas> 
+	
+	<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+	<script src="http://code.createjs.com/easeljs-0.5.0.min.js"></script>
+
+	<script src="js/lib/box2dweb.js"></script>
+	
+
+	<script src="js/background.js"></script>
+	<script src="js/box2dIntegration.js"></script>
+	<script src="js/init.js"></script>
+	<script src="js/input.js"></script>
+	<!--script src="js/main.js"></script-->
+	<script src="js/sound.js"></script>
+	<script src="js/tick.js"></script>
+	<script src="js/torck.js"></script>
+	<script src="js/worldObjects.js"></script>
+
+	
+</body>
+
+</html>

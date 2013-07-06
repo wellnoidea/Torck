@@ -1,0 +1,32 @@
+﻿////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////// The Ticker //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// The tick function called from the Ticker property, this is an easeljs feature
+function tick() {
+
+	torck.move();
+	
+	// update the easeljs stage
+	stage.update();
+
+	world.DrawDebugData();
+	
+	drawBackground(); // ooohhhhh bad practice, not even an object!
+
+	// Draw what's comin from the Debug
+	// Increment or step our physics world forward
+		// Time step here equal to the FPS
+		// Velocity iterations, higher = more accurate but slower
+		// Position Iterations, ~
+	// How about a for heh?
+	for (var key in aGroundThing) {
+		aGroundThing[key].draw();
+	}
+
+	torck.draw();
+	drawForeground();
+	world.Step(1/60, 10, 10);
+	world.ClearForces(); // ???
+
+}
