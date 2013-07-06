@@ -9,34 +9,42 @@ function init() {
 	// The physics world
 	setupPhysics();
 
+	////////// Torck! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//function aGroundII(imageID, isSquare, posX, posY, sizeX, sizeY, isDynamic, density, restitution, friction, filterCategory, filterMask) {
+	// Since it's the player torck gets his own definition
+	// Singleton style
+	torck = new aBall;
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	//function aGroundII(imageID, isSquare, posX, posY, sizeX, sizeY, isDynamic, density, restitution, friction, filterCategory, filterMask) {
 	// an artifact requires i to start from zero 
 
 	// Lowest Ground
-	aGroundThing[++i] = new aGroundII("eroded_wood", true, 2000, 600, 2000, 20, false, 1, 0, 1, 2, -1); 
+	aGroundThing[++i] = new aGroundII("eroded_wood", true, 2000, 600, 2000, 20, false, 1, 0, 1, 3, -1); 
 	// Left wall
-	aGroundThing[++i] = new aGroundII("eroded_wood", true, 10, 300, 10, 1000, false, 1, 0, 1, 2, -1); 
+	aGroundThing[++i] = new aGroundII("eroded_wood", true, 10, 300, 10, 1000, false, 1, 0, 1, 3, -1); 
 	//some blocks
 //	aGroundThing[++i] = new aGroundII("schaumstoff", true, 70, -1000, 30, 30, true, 0.1, 0.5, 1, 2, -1); 
 //	aGroundThing[++i] = new aGroundII("concrete", true, 100, 0, 25, 25, true, 50, 0, 1, 2, -1); 
 //	aGroundThing[++i] = new aGroundII("bloeder_ball", false, 600, 250, 25, 25, true, 0.1, 0.8, 1, 2, -1); 
  
-////////// Testing a Rotationally Locked Object //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/** /
+	////////// Testing a Rotationally Locked Object //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/** /
 	// the left trunk is not locked
 	aGroundThing[++i] = new aGroundII("eroded_wood", true, 400, 300, 5, 30, true, 0.1, 0.3, 1, 2, -1);
 	aGroundThing[i].body.SetAngle(0.5); 
-	//  the left trunk is locked, which makes for some really weird physics    oO           may be VERY useful for sensors
+	//  the right trunk is locked, which makes for some really weird physics    oO           may be VERY useful for sensors
 	aGroundThing[++i] = new aGroundII("eroded_wood", true, 550, 300, 5, 30, true, 0.1, 0.3, 1, 2, -1);
 	aGroundThing[i].body.SetFixedRotation(true);
 	aGroundThing[i].body.SetAngle(0.5);
-/**/
+	/**/
 
 
-////////// Let's make some Joints! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	////////// Let's Make Some Joints! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	// http://blog.sethladd.com/2011/09/box2d-and-joints-for-javascript.html
-/**/
+	/**/
 	aGroundThing[++i] = new aGroundII("oldGreyWood", true, 600, 250, 100, 5, true, 0.1, 0.3, 1, 2, -1);
 	aGroundThing[++i] = new aGroundII("wagonWheel_01", false, 500, 250, 40, 0, true, 0.1, 0.1, 1, 2, -1);
 	aGroundThing[++i] = new aGroundII("wagonWheel_02", false, 700, 250, 40, 0, true, 0.1, 0.1, 1, 2, -1);
@@ -58,47 +66,40 @@ function init() {
 
 	console.log(i);//#delendum
 	console.log(aGroundThing[i]);//#delendum
-/**/
 
-////////// Aaand Now to a Decent Jump Sensor! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-/* the jump sensor needs to be situated underneath torck all the time
- * thus additional fixtures on it are not going to work since they will rotate with torck in unisono
- * therefore I'll use a revolute joint putting a fixed rotation sensor on torck 
- */
+	////////// Filtered Apples! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// those apples are not only mere decoration but also a test for filtering
+	// best enjoyed with the cart from the Let's Make Some Joints! section
+	aGroundThing[++i] = new aGroundII("appleGreen", false, 600, 250, 8, 25, true, 0.1, 0.2, 1, 2, 2);
+	aGroundThing[++i] = new aGroundII("appleGreen", false, 600, 250, 9, 25, true, 0.1, 0.2, 1, 2, 2);
+	aGroundThing[++i] = new aGroundII("appleGreen", false, 600, 250, 9, 25, true, 0.1, 0.2, 1, 2, 2);
+	aGroundThing[++i] = new aGroundII("appleGreen", false, 600, 250, 10, 25, true, 0.1, 0.2, 1, 2, 2);
+	aGroundThing[++i] = new aGroundII("appleGreen", false, 600, 250, 10, 25, true, 0.1, 0.2, 1, 2, 2);
+	aGroundThing[++i] = new aGroundII("appleGreen", false, 600, 250, 11, 25, true, 0.1, 0.2, 1, 2, 2);
+	aGroundThing[++i] = new aGroundII("appleRed", false, 600, 250, 11, 25, true, 0.1, 0.2, 1, 2, 2);
+	aGroundThing[++i] = new aGroundII("appleRed", false, 600, 250, 12, 25, true, 0.1, 0.2, 1, 2, 2);
+	aGroundThing[++i] = new aGroundII("appleRed", false, 600, 250, 13, 25, true, 0.1, 0.2, 1, 2, 2);
+
+	aGroundThing[++i] = new aGroundII("appleGreen", false, 800, 250, 10, 25, true, 0.1, 0.2, 1, 1, 5);
+	aGroundThing[++i] = new aGroundII("appleGreen", false, 800, 250, 11, 25, true, 0.1, 0.2, 1, 1, 5);
+	aGroundThing[++i] = new aGroundII("appleRed", false, 800, 250, 11, 25, true, 0.1, 0.2, 1, 1, 5);
+	/**/
+
+	////////// Aaand Now to a Decent Jump Sensor! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	/* the jump sensor needs to be situated underneath torck all the time
+	 * thus additional fixtures on it are not going to work since they will rotate with torck in unisono
+	 * therefore I'll use a revolute joint putting a fixed rotation sensor on torck 
+	 */
+
+	aGroundThing[++i] = new aSensor("eroded_wood", true, 200, 220, 5, 30, true, 0.1, 0.3, 1, 2, -1);
+	aGroundThing[i].body.SetFixedRotation(true);
+	console.log(aGroundThing[i].body);//#delendum
+	var joint = new box2d.b2RevoluteJointDef();
+	joint.Initialize(aGroundThing[i].body, torck.body, torck.body.GetWorldCenter());
+	this.world.CreateJoint(joint)
 
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//	aGroundThing[i++] = new aGroundII("eis", true, 750, 250, 75, 3, true, 1, 0, 0.002); 
-
-// Since it's the player torck gets his own definition
-// Singleton style
-	torck = new aBall;
-
-	var x = function () {
-			// 	- Needs a fixture definition (densitiy, friction, restitution)
-			// 	- And a body definition
-			// Define the fixture
-			var fixDef = new box2d.b2FixtureDef()
-			// set properties
-			fixDef.density = 0.1;
-			fixDef.friction = 0.2;
-			fixDef.shape = new box2d.b2CircleShape(21 / SCALE);
-			// The 'bounciness' of an object
-			fixDef.restitution = i / 10;
-
-			// Define the body
-			// There are two types of objects static and dynamic, the first is fixed like the floor, the second are the movable objects
-			var bodyDef = new box2d.b2BodyDef();
-				// The ball is dynamic, of course
-			bodyDef.type = box2d.b2Body.b2_dynamicBody;
-			bodyDef.position.x = 550 / SCALE;	
-			bodyDef.position.y = 400 / SCALE;
-
-			// create a body into the box2d world
-			// Method chaining CreateBody() . CreateFixture() Yay!
-			world.CreateBody(bodyDef).CreateFixture(fixDef);
-		}
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 	//The tick function provided by easeljs

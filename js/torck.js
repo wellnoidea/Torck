@@ -23,6 +23,8 @@ function aBall() {
 	fixDef.shape = new box2d.b2CircleShape(19 / SCALE);
 	// The 'bounciness' of an object
 	fixDef.restitution = 0.0;
+	fixDef.filter.categoryBits = 4;
+	fixDef.filter.maskBits = -1;
 
 	var fixDefII = new box2d.b2FixtureDef();
 
@@ -38,8 +40,8 @@ function aBall() {
 		// The ball is dynamic, of course
 	//bodyDef.type = box2d.b2Body.b2_dynamicBody;
 	bodyDef.type = box2d.b2Body.b2_dynamicBody;
-	bodyDef.position.x = 300 / SCALE;	
-	bodyDef.position.y = 150 / SCALE;
+	bodyDef.position.x = 200 / SCALE;	
+	bodyDef.position.y = 200 / SCALE;
 	bodyDef.userData = 'torck';
 
 	// create a body into the box2d world
@@ -83,11 +85,11 @@ function aBall() {
 		ctx.drawImage(img, - 20, - 26, 40, 48);
 		ctx.restore();
 
-		offsetX = offsetX + (this.body.GetPosition().x * SCALE - offsetX) / 10;
+//		offsetX = offsetX + (this.body.GetPosition().x * SCALE - offsetX) / 10;
 
 		//This is so not good, but i wanted to get the skull lower
 	//	offsetY = offsetY + 200;
-		offsetY = offsetY +(this.body.GetPosition().y * SCALE - offsetY) / 10;
+//		offsetY = offsetY +(this.body.GetPosition().y * SCALE - offsetY) / 10;
 
 	//	offsetY = offsetY - 200;
 		//offsetY = this.body.GetPosition().y;
