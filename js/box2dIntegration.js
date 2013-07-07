@@ -24,11 +24,7 @@ http://blog.sklambert.com/html5-canvas-game-panning-a-background/
 // Object definition giving box2d kind of a namespace and allowing shortened terms to access box2d functions
 // May be used in a self executing anonymous function to get it off the global scope
 
-// Canvas definition
-var c=document.getElementById("canvas"); 
-var ctx=c.getContext("2d");
-ctx.fillStyle="#FF0000";
-ctx.fillRect(0,0,150,75);
+
 
 var box2d = {
 	b2Vec2 				: Box2D.Common.Math.b2Vec2,
@@ -82,16 +78,6 @@ var b2Vec2 = Box2D.Common.Math.b2Vec2
 // box2d works in metres, the scale is used to calculate from metres to pixels, thus 1 m = 30 px
 // Values given are in pixles thus / 400, value coming from box2d in metres thus * SCALE
 var SCALE = 30;
-
-// stage: the easeljs stage to be used
-// world: the box2d world
-// Defined on the global scope for referencing elsewhere this is for demonstration reasons only, normally better capsulated (?)
-var stage, world, thingy, torck, debugDraw;
-var aGroundThing = new Array(); // Better take an object in the long run
-//var groundElements = new Array();
-var offsetX = 0;
-var offsetY = 0;
-var i = 0;
 
 function setupPhysics (){
 	// b2World needs a vector (b2Vec2) for gravity which takes gravity on the x and the y axis

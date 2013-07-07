@@ -35,6 +35,11 @@ function drawBackground(){
 
 function drawForeground(){
 
+	if (achievementGained){
+		var img = document.getElementById('achievement');
+		ctx.drawImage(img, 500, 200);
+	}
+
 	// grass in front of the moving objects
 	var x = ((aGroundThing[1].body.GetPosition().x) * SCALE - 650  - offsetX) * 1;
 	var y = ((aGroundThing[1].body.GetPosition().y) * SCALE + 180  - offsetY) * 1;

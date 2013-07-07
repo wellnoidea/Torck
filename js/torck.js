@@ -61,7 +61,6 @@ function aBall() {
 	//	var x = this.body.GetPosition().x * SCALE;
 	//	var y = this.body.GetPosition().y * SCALE;
 
-
 		var x = this.body.GetPosition().x * SCALE - offsetX + 500;
 		var y = this.body.GetPosition().y * SCALE - offsetY + 300;
 
@@ -88,14 +87,7 @@ function aBall() {
 		ctx.drawImage(img, - 20, - 26, 40, 48);
 		ctx.restore();
 
-//		offsetX = offsetX + (this.body.GetPosition().x * SCALE - offsetX) / 10;
 
-		//This is so not good, but i wanted to get the skull lower
-	//	offsetY = offsetY + 200;
-//		offsetY = offsetY +(this.body.GetPosition().y * SCALE - offsetY) / 10;
-
-	//	offsetY = offsetY - 200;
-		//offsetY = this.body.GetPosition().y;
 
 
 	} 

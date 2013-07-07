@@ -1,4 +1,23 @@
-﻿
+﻿// Canvas definition
+var c=document.getElementById("canvas"); 
+var ctx=c.getContext("2d");
+ctx.fillStyle="#FF0000";
+ctx.fillRect(0,0,150,75);
+
+// stage: the easeljs stage to be used
+// world: the box2d world
+// Defined on the global scope for referencing elsewhere this is for demonstration reasons only, normally better capsulated (?)
+var stage, world, thingy, torck, debugDraw;
+var aGroundThing = new Array(); // Better take an object in the long run
+//var groundElements = new Array();
+var offsetX = 0;
+var offsetY = 0;
+var i = 0;
+
+var achievementGained = false;
+
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////// The Init Function, Let's Get Things Started /////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -18,17 +37,13 @@ function init() {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	//function aGroundII(imageID, isSquare, posX, posY, sizeX, sizeY, isDynamic, density, restitution, friction, filterCategory, filterMask) {
-	// an artifact requires i to start from zero 
+	// (imageID, isSquare, posX, posY, sizeX, sizeY, isDynamic, density, restitution, friction, filterCategory, filterMask)
 
 	// Lowest Ground
 	aGroundThing[++i] = new aGroundII("eroded_wood", true, 2000, 600, 2000, 20, false, 1, 0, 1, 3, -1); 
 	// Left wall
-	aGroundThing[++i] = new aGroundII("eroded_wood", true, 10, 300, 10, 1000, false, 1, 0, 1, 3, -1); 
-	//some blocks
-//	aGroundThing[++i] = new aGroundII("schaumstoff", true, 70, -1000, 30, 30, true, 0.1, 0.5, 1, 2, -1); 
-//	aGroundThing[++i] = new aGroundII("concrete", true, 100, 0, 25, 25, true, 50, 0, 1, 2, -1); 
-//	aGroundThing[++i] = new aGroundII("bloeder_ball", false, 600, 250, 25, 25, true, 0.1, 0.8, 1, 2, -1); 
+	aGroundThing[++i] = new aGroundII("eroded_wood", true, 0, 380, 10, 240, false, 1, 0, 1, 3, -1); 
+
  
 	////////// Testing a Rotationally Locked Object //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/** /
@@ -82,9 +97,9 @@ function init() {
 	aGroundThing[++i] = new aGroundII("appleRed", false, 600, 250, 12, 25, true, 0.1, 0.2, 1, 2, 2);
 	aGroundThing[++i] = new aGroundII("appleRed", false, 600, 250, 13, 25, true, 0.1, 0.2, 1, 2, 2);
 
-	aGroundThing[++i] = new aGroundII("appleGreen", false, 800, 250, 10, 25, true, 0.1, 0.2, 1, 1, 5);
-	aGroundThing[++i] = new aGroundII("appleGreen", false, 800, 250, 11, 25, true, 0.1, 0.2, 1, 1, 5);
-	aGroundThing[++i] = new aGroundII("appleRed", false, 800, 250, 11, 25, true, 0.1, 0.2, 1, 1, 5);
+	aGroundThing[++i] = new aGroundII("appleGreen", false, 800, 250, 10, 25, true, 0.1, 0.2, 0.01, 1, 5);
+	aGroundThing[++i] = new aGroundII("appleGreen", false, 800, 250, 11, 25, true, 0.1, 0.2, 0.01, 1, 5);
+	aGroundThing[++i] = new aGroundII("appleRed", false, 800, 250, 11, 25, true, 0.1, 0.2, 1, 0.01, 5);
 	/**/
 
 	////////// Aaand Now to a Decent Jump Sensor! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
@@ -117,8 +132,51 @@ function init() {
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	////////// The Playground, Just Stuff to Fool Around //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	// (imageID, isSquare, posX, posY, sizeX, sizeY, isDynamic, density, restitution, friction, filterCategory, filterMask)
+	//some blocks
 
+	aGroundThing[++i] = new aGroundII("metal", true, 		-1200, -170, 100, 10, false, 0.1, 0, 1, 1, -1);
+	aGroundThing[i].body.SetUserData('oneSidedUpDown'); // UpDown states the solid direction
+	aGroundThing[++i] = new aGroundII("eroded_wood", true, -1400, -180, 100, 10, false, 1, 0, 1, 3, -1); 
+	aGroundThing[i].body.SetAngle(0.1); 
+	aGroundThing[++i] = new aGroundII("eroded_wood", true, -1600, -210, 100, 10, false, 1, 0, 1, 3, -1); 
+	aGroundThing[i].body.SetAngle(0.2); 
+	aGroundThing[++i] = new aGroundII("eroded_wood", true, -1800, -265, 100, 10, false, 1, 0, 1, 3, -1); 
+	aGroundThing[i].body.SetAngle(0.3); 
+	aGroundThing[++i] = new aGroundII("eroded_wood", true, -2000, -340, 100, 10, false, 1, 0, 1, 3, -1); 
+	aGroundThing[i].body.SetAngle(0.4); 
+	aGroundThing[++i] = new aGroundII("eroded_wood", true, -2200, -430, 100, 10, false, 1, 0, 1, 3, -1); 
+	aGroundThing[i].body.SetAngle(0.5); 
+	aGroundThing[++i] = new aGroundII("eroded_wood", true, -2370, -545, 100, 10, false, 1, 0, 1, 3, -1); 
+	aGroundThing[i].body.SetAngle(0.7);
+	aGroundThing[++i] = new aGroundII("eroded_wood", true, -2500, -680, 100, 10, false, 1, 0, 1, 3, -1); 
+	aGroundThing[i].body.SetAngle(0.9);
+
+	aGroundThing[++i] = new aGroundII("schaumstoff", true, -200, -500, 25, 25, true, 0.02, 0.9, 1, 2, -1); 
+	aGroundThing[++i] = new aGroundII("schaumstoff", true, -400, -500, 50, 50, true, 0.02, 0.9, 1, 2, -1); 
+	aGroundThing[++i] = new aGroundII("schaumstoff", true, -600, -500, 75, 75, true, 0.02, 0.9, 1, 2, -1); 
+	aGroundThing[++i] = new aGroundII("concrete", true, -800, 0, 25, 25, true, 50, 0, 1, 2, -1); 
+	aGroundThing[++i] = new aGroundII("concrete", true, -1000, 0, 50, 50, true, 50, 0, 1, 2, -1); 
+	aGroundThing[++i] = new aGroundII("concrete", true, -1200, 0, 75, 75, true, 50, 0, 1, 2, -1); 
+	aGroundThing[++i] = new aGroundII("bloeder_ball", false, -1600, 0, 25, 25, true, 0.1, 0.8, 1, 2, -1); 
+	aGroundThing[++i] = new aGroundII("bloeder_ball", false, -1800, 0, 50, 25, true, 0.1, 0.8, 1, 2, -1); 
+	aGroundThing[++i] = new aGroundII("bloeder_ball", false, -2000, 0, 75, 25, true, 0.1, 0.8, 1, 2, -1); 
+	aGroundThing[++i] = new aGroundII("eis", true, -2200, 0, 25, 25, true, 1, 0, 0.001, 2, -1); 
+	aGroundThing[++i] = new aGroundII("eis", true, -2400, 0, 50, 50, true, 1, 0, 0.001, 2, -1); 
+	aGroundThing[++i] = new aGroundII("eis", true, -2600, 0, 75, 75, true, 1, 0, 0.001, 2, -1);
+	aGroundThing[++i] = new aGroundII("eis", true, -2800, 0, 75, 5, true, 1, 0, 0.001, 2, -1);
+
+	// stairway to the playground
+	aGroundThing[++i] = new aGroundII("metal", true, 30, 150, 20, 10, false, 0.1, 0, 1, 1, -1);
+	aGroundThing[i].body.SetUserData('oneSidedUpDown'); // UpDown states the solid direction
+	aGroundThing[++i] = new aGroundII("metal", true, 30, 300, 20, 10, false, 0.1, 0, 1, 1, -1);
+	aGroundThing[i].body.SetUserData('oneSidedUpDown'); // UpDown states the solid direction
+	aGroundThing[++i] = new aGroundII("metal", true, 30, 450, 20, 10, false, 0.1, 0, 1, 1, -1);
+	aGroundThing[i].body.SetUserData('oneSidedUpDown'); // UpDown states the solid direction
+	// the playground ground
+	aGroundThing[++i] = new aGroundII("eroded_wood", true, -5000, 150, 4990, 10, false, 1, 0, 1, 3, -1); 
 
     this.world.SetContactListener(listener);
 
