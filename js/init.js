@@ -66,10 +66,12 @@ function init() {
 
 	console.log(i);//#delendum
 	console.log(aGroundThing[i]);//#delendum
+	/**/
 
 	////////// Filtered Apples! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// those apples are not only mere decoration but also a test for filtering
-	// best enjoyed with the cart from the Let's Make Some Joints! section
+	// best enjoyed on the cart from the Let's Make Some Joints! section
+	/**/
 	aGroundThing[++i] = new aGroundII("appleGreen", false, 600, 250, 8, 25, true, 0.1, 0.2, 1, 2, 2);
 	aGroundThing[++i] = new aGroundII("appleGreen", false, 600, 250, 9, 25, true, 0.1, 0.2, 1, 2, 2);
 	aGroundThing[++i] = new aGroundII("appleGreen", false, 600, 250, 9, 25, true, 0.1, 0.2, 1, 2, 2);
@@ -89,52 +91,34 @@ function init() {
 	/* the jump sensor needs to be situated underneath torck all the time
 	 * thus additional fixtures on it are not going to work since they will rotate with torck in unisono
 	 * therefore I'll use a revolute joint putting a fixed rotation sensor on torck 
+	 *		// argh, the internetz gets me distracted every time...   *_*
+	 * the current configuration prevents wall crawling and sticking on ceilings, but at least the latter should be reintroduced   :)
+	 * DO NOT COMMENT THIS SECTION! or jumping will fail
 	 */
-
-	aGroundThing[++i] = new aSensor("eroded_wood", true, 200, 220, 5, 30, true, 0.1, 0.3, 1, 2, -1);
+	// the sensor is slightly smaller (-1) than torck to avoid a feedback when next to walls to avoid wall crawling
+	// the sensor is placed slightly below torck (+1) to stick out and get an overlap with the ground
+	aGroundThing[++i] = new aSensor("bloeder_ball", false, torck.startX, torck.startY + 1, torck.size - 1, 0, true, 0.1, 0.3, 1, 2, -1); 
+	// fix the rotational degree of freedom to always have it underneath
 	aGroundThing[i].body.SetFixedRotation(true);
+	aGroundThing[i].body.SetUserData('infraSensor'); // the infra- is the lower sensor, the jump sensor
 	console.log(aGroundThing[i].body);//#delendum
+	// pin it onto torck with a slight offset downwards (to-do)
 	var joint = new box2d.b2RevoluteJointDef();
 	joint.Initialize(aGroundThing[i].body, torck.body, torck.body.GetWorldCenter());
 	this.world.CreateJoint(joint)
 
+	////////// A One Sided Platform, a True Classic //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// http://www.emanueleferonato.com/2010/03/02/understanding-box2ds-one-way-platforms-aka-clouds/
+	// for the actual functionality see listeners.js
+	// off topi: http://encosia.com/first-class-functions-as-an-alternative-to-javascripts-switch-statement/
+
+	aGroundThing[++i] = new aGroundII("metal", true, 900, 450, 100, 10, false, 0.1, 0, 1, 1, -1);
+	aGroundThing[i].body.SetUserData('oneSidedUpDown'); // UpDown states the solid direction
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	//The tick function provided by easeljs
-	// Lookin for a global function called tick on the global scope
-	createjs.Ticker.addListener(this)
-	createjs.Ticker.setFPS(60);
-	// Boolean property for request animation frame in easeljs. Yay!
-	createjs.Ticker.useRAF = true;
 
-	var listener = new Box2D.Dynamics.b2ContactListener;
-    listener.BeginContact = function(contact) {
-    	if ((contact.GetFixtureA().GetBody().m_userData === 'torck' && contact.GetFixtureB().GetBody().m_userData === 'ground') ||
-			(contact.GetFixtureA().GetBody().m_userData === 'ground' && contact.GetFixtureB().GetBody().m_userData === 'torck')) {
-    		torck.contacts++;
-    		if (sound_is_active) {
-				collision.currentTime = 0.07;
-				collision.play(); // Reenable to get the collision sound
-			}
-    	}
-    }
-
-    listener.EndContact = function(contact) {
-        if ((contact.GetFixtureA().GetBody().m_userData === 'torck' && contact.GetFixtureB().GetBody().m_userData === 'ground') ||
-			(contact.GetFixtureA().GetBody().m_userData === 'ground' && contact.GetFixtureB().GetBody().m_userData === 'torck')) {
-    		torck.contacts--;
-    	}
-    }
-
-    listener.PostSolve = function(contact, impulse) {
-    	//
-    }
-
-    listener.PreSolve = function(contact, oldManifold) {
-    	//
-    }
 
     this.world.SetContactListener(listener);
 

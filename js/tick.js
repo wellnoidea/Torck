@@ -17,7 +17,7 @@ function tick() {
 	// update the easeljs stage
 	stage.update();
 
-	//world.DrawDebugData();
+	world.DrawDebugData();
 	
 	drawBackground(); // ooohhhhh bad practice, not even an object!
 

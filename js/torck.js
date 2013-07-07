@@ -2,11 +2,14 @@
 ////////// Definition of Torck Himself /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Torck is the name of the skull
+// Torck is the name of the skull, aBall its 'class'
 
 function aBall() {
 	this.moveX = 0;
 	this.moveY = 0;
+	this.size = 20;
+	this.startX = 200;
+	this.startY = 200;
 	this.contacts = 0;
 
 
@@ -20,7 +23,7 @@ function aBall() {
 //	fixDef.userData = 'Torck';
 //	fixDef.name = 'Torck';
 	fixDef.friction = 0.4;
-	fixDef.shape = new box2d.b2CircleShape(19 / SCALE);
+	fixDef.shape = new box2d.b2CircleShape(this.size / SCALE);
 	// The 'bounciness' of an object
 	fixDef.restitution = 0.0;
 	fixDef.filter.categoryBits = 4;
@@ -30,7 +33,7 @@ function aBall() {
 
 	/* Kreis als Kopf */
 	fixDefII.shape = new box2d.b2CircleShape();
-	fixDefII.shape.SetRadius(10 / SCALE);
+	fixDefII.shape.SetRadius(this.size / SCALE);
 	fixDefII.shape.SetLocalPosition(new box2d.b2Vec2(0 / SCALE, 20 / SCALE));
 	fixDefII.density = 0.01
 
@@ -40,8 +43,8 @@ function aBall() {
 		// The ball is dynamic, of course
 	//bodyDef.type = box2d.b2Body.b2_dynamicBody;
 	bodyDef.type = box2d.b2Body.b2_dynamicBody;
-	bodyDef.position.x = 200 / SCALE;	
-	bodyDef.position.y = 200 / SCALE;
+	bodyDef.position.x = this.startX / SCALE;	
+	bodyDef.position.y = this.startY / SCALE;
 	bodyDef.userData = 'torck';
 
 	// create a body into the box2d world
@@ -115,13 +118,10 @@ function aBall() {
 			//this.body.GetPosition()
 		}
 
+		// Yay! Jumping!
 		if (this.moveY !== 0){
-			force = new box2d.b2Vec2(0, this.moveY * 35);
-
-
-			//this.moveY = 0;
-		//	if (this.body.GetLinearVelocity().y < 0.1 && this.body.GetLinearVelocity().y > -0.1 ){
-			// I do not fully understand the contact list yet, but it stays on not null a bit too long, so I built the jump lock
+			force = new box2d.b2Vec2(0, this.moveY * 40);
+			// this.body.GetLinearVelocity().y > -15 avoids torck skyrocketing, you may only jump if you're not already rising fast
 			if (this.contacts > 0 && this.body.GetLinearVelocity().y > -15){
 				this.body.ApplyImpulse(force, this.body.GetPosition());
 

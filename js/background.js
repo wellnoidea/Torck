@@ -22,7 +22,7 @@ function drawBackground(){
 	ctx.drawImage(img, 50,  50);
 	ctx.restore();
 
-	// grass
+	// grass behind the moving objects
 	var x = ((aGroundThing[1].body.GetPosition().x) * SCALE - 800  - offsetX) * 1;
 	var y = ((aGroundThing[1].body.GetPosition().y) * SCALE + 180  - offsetY) * 1;
 	var img = document.getElementById('grassBackground');
@@ -35,7 +35,7 @@ function drawBackground(){
 
 function drawForeground(){
 
-	// grass
+	// grass in front of the moving objects
 	var x = ((aGroundThing[1].body.GetPosition().x) * SCALE - 650  - offsetX) * 1;
 	var y = ((aGroundThing[1].body.GetPosition().y) * SCALE + 180  - offsetY) * 1;
 	var img = document.getElementById('grassBackground');
@@ -57,7 +57,7 @@ function drawForeground(){
 
 
 
-	// vignette
+	// vignette, not moving at all
 	var img = document.getElementById('vignette');
 	ctx.drawImage(img, 0, 0, 1200, 600);
 }
