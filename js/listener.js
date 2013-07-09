@@ -1,9 +1,4 @@
-﻿	//The tick function provided by easeljs
-	// Lookin for a global function called tick on the global scope
-	createjs.Ticker.addListener(this)
-	createjs.Ticker.setFPS(60);
-	// Boolean property for request animation frame in easeljs. Yay!
-	createjs.Ticker.useRAF = true;
+﻿
 
 	var listener = new Box2D.Dynamics.b2ContactListener;
 
@@ -36,7 +31,6 @@
 			// the +1 is a buffer to avoid glitches
 			// possible to do: a short temporary jump lock when the skull reaches the platform might avoid overly 'jumpy' behaviour
 			if (distance > - (torck.size / 2 + 20) + 1) {
-				console.log(torck.size / 2 + 20);//#delendum
 				// don't manage the contact
 				contact.SetEnabled(false);
 			}
@@ -56,7 +50,6 @@
 		}
 		if (contact.GetFixtureA().GetBody().m_userData === 'infraSensor' || contact.GetFixtureB().GetBody().m_userData === 'infraSensor') {
 			torck.contacts++;
-			console.log('abc');//#delendum
 		}
 	}
 

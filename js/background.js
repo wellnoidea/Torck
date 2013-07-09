@@ -65,6 +65,12 @@ function drawForeground(){
 	// vignette, not moving at all
 	var img = document.getElementById('vignette');
 	ctx.drawImage(img, 0, 0, 1200, 600);
+
+
+	 
+	ctx.font = "bold 16px Arial";
+	ctx.fillText(Math.ceil(createjs.Ticker.getMeasuredFPS()), 10, 20);
+
 }
 
 

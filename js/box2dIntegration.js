@@ -94,5 +94,5 @@ function setupPhysics (){
 	// Set shapes and joints to be drawn
 	debugDraw.SetFlags(box2d.b2DebugDraw.e_shapeBit | box2d.b2DebugDraw.e_jointBit);
 	// Tell the physics world about the debug draw
-	 world.SetDebugDraw(debugDraw);
+	world.SetDebugDraw(debugDraw);
 }

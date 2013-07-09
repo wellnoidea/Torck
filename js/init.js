@@ -1,7 +1,52 @@
-﻿// Canvas definition
+﻿////////// Some Notes /////////////////////////////////////////////////////////////////////////////////////////////
+/*
+
+http://www.box2d.org/manual.html
+	6.2 Fixture Creation
+	Filtering
+
+"Box2D supports 16 collision categories. For each fixture you can specify which category it belongs to. 
+You also specify what other categories this fixture can collide with."
+Also see category and group filtering
+
+Not implemented yet!
+
+Bit 		used by 			in use
+ 1 	    1 	Torck 				y
+ 2 	    2 	Ground I 			y
+ 3 	    4 	Ground II 			-
+ 4 	    8 	Ground III (?) 		-
+ 5 	   16 	Sensors I 			y
+ 6 	   32 	Sensors II (?)		-
+ 7 	   64 	Sensors III (?)		-
+ 8 	  128 	Fluff I 			y
+ 9 	  256 	Fluff II (?)		-
+10 	 1024 	Fluff III (?)		-
+11   2048 	
+12   4096 	
+13 	
+14 	
+15 	
+16 	
+
+*/
+
+////////// Something to Read and Ponder /////////////////////////////////////////////////////////////////////////////////////////////
+/*
+http://www.ajohnstone.com/test/hackday/CreateJS-EaselJS-b262a85/tutorials/Animation%20and%20Ticker/
+
+*/
+
+
+
+
+
+
+
+// Canvas definition
 var c=document.getElementById("canvas"); 
 var ctx=c.getContext("2d");
-ctx.fillStyle="#FF0000";
+ctx.fillStyle="#773311";
 ctx.fillRect(0,0,150,75);
 
 // stage: the easeljs stage to be used
@@ -9,12 +54,23 @@ ctx.fillRect(0,0,150,75);
 // Defined on the global scope for referencing elsewhere this is for demonstration reasons only, normally better capsulated (?)
 var stage, world, thingy, torck, debugDraw;
 var aGroundThing = new Array(); // Better take an object in the long run
+var aWritingOnTheWall = new Array(); // Better take an object in the long run
 //var groundElements = new Array();
 var offsetX = 0;
 var offsetY = 0;
 var i = 0;
+var j = 0;
+var jumpLock = -1;
 
 var achievementGained = false;
+var debugInfoCalled = false;
+
+//The tick function provided by easeljs
+// Lookin for a global function called tick on the global scope
+createjs.Ticker.addListener(this)
+createjs.Ticker.setFPS(60);
+// Boolean property for request animation frame in easeljs. Yay!
+createjs.Ticker.useRAF = true;
 
 
 
@@ -177,6 +233,14 @@ function init() {
 	aGroundThing[i].body.SetUserData('oneSidedUpDown'); // UpDown states the solid direction
 	// the playground ground
 	aGroundThing[++i] = new aGroundII("eroded_wood", true, -5000, 150, 4990, 10, false, 1, 0, 1, 3, -1); 
+
+	//
+
+	aWritingOnTheWall[++j] = new aWriting(0, 0, 'Null/Null')
+	aWritingOnTheWall[++j] = new aWriting(-3200, -200, 'Filter Tests')
+	aWritingOnTheWall[++j] = new aWriting(-3200, -180, 'categoryBits: ' + torck.body.GetFixtureList().GetFilterData().categoryBits)
+	aWritingOnTheWall[++j] = new aWriting(-3200, -160, 'groupIndex:   ' + torck.body.GetFixtureList().GetFilterData().groupIndex)
+	aWritingOnTheWall[++j] = new aWriting(-3200, -140, 'maskBits:     ' + torck.body.GetFixtureList().GetFilterData().maskBits)
 
     this.world.SetContactListener(listener);
 

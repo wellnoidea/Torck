@@ -8,8 +8,8 @@ function aBall() {
 	this.moveX = 0;
 	this.moveY = 0;
 	this.size = 20;
-	this.startX = 200;
-	this.startY = 200;
+	this.startX = -3000;
+	this.startY = 100;
 	this.contacts = 0;
 
 
@@ -112,14 +112,14 @@ function aBall() {
 
 		// Yay! Jumping!
 		if (this.moveY !== 0){
-			force = new box2d.b2Vec2(0, this.moveY * 40);
+			force = new box2d.b2Vec2(0, this.moveY * 80);
 			// this.body.GetLinearVelocity().y > -15 avoids torck skyrocketing, you may only jump if you're not already rising fast
-			if (this.contacts > 0 && this.body.GetLinearVelocity().y > -15){
+			if (this.contacts > 0 && this.body.GetLinearVelocity().y > -15 && jumpLock < 0){
 				this.body.ApplyImpulse(force, this.body.GetPosition());
-
+				jumpLock = 25;
 			} else {
 				
-			}		
+			}
 		}
 	}
 }
