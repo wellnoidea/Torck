@@ -16,7 +16,7 @@ $(document).keydown(function(e) {
 			torck.moveX = -1;
 			break;
 		case 40:
-			torck.moveY = -1;
+			torck.moveY = 1;
 			break;
 		case 13: // return
 			debugInfoCalled = true;

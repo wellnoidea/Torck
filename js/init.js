@@ -64,6 +64,7 @@ var jumpLock = -1;
 
 var achievementGained = false;
 var debugInfoCalled = false;
+var oscillationCounter = 0;
 
 //The tick function provided by easeljs
 // Lookin for a global function called tick on the global scope
@@ -94,7 +95,10 @@ function init() {
 
 
 	// (imageID, isSquare, posX, posY, sizeX, sizeY, isDynamic, density, restitution, friction, filterCategory, filterMask)
-
+	
+	// zero object
+	aGroundThing[++i] = new aGroundII("eroded_wood", true, 0, 0, 10, 10, false, 1, 0, 1, 3, -1);
+	aGroundThing[++i] = new aGroundII("eroded_wood", true, 0, 0, 10, 10, false, 1, 0, 1, 3, -1);
 	// Lowest Ground
 	aGroundThing[++i] = new aGroundII("eroded_wood", true, 2000, 600, 2000, 20, false, 1, 0, 1, 3, -1); 
 	// Left wall

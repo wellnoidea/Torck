@@ -35,6 +35,15 @@ function drawBackground(){
 
 function drawForeground(){
 
+	var x = ((aGroundThing[1].body.GetPosition().x) * SCALE - 3000  - offsetX);
+	var y = ((aGroundThing[1].body.GetPosition().y) * SCALE + 200  - offsetY);
+	var img = document.getElementById('bloeder_ball');
+	ctx.save();
+	ctx.globalAlpha = Math.sin(oscillationCounter / 100) * Math.sin(oscillationCounter++ / 100);
+	ctx.translate(x , y );
+	ctx.drawImage(img, 0, 0);
+	ctx.restore();
+
 	if (achievementGained){
 		var img = document.getElementById('achievement');
 		ctx.drawImage(img, 500, 200);

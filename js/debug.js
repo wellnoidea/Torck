@@ -16,5 +16,6 @@ function debugInfo() {
 	console.log('torck:');//#delendum
 	console.log(torck);//#delendum
 	console.log(torck.body.GetFixtureList().GetFilterData());//#delendum
+	//console.log(torck.moveY);//#delendum
 
 }

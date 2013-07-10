@@ -29,8 +29,10 @@
 			var distance = torckPosY - oneSidedUpDownPosY;
 			// if the distance is greater than player radius + the platform height...
 			// the +1 is a buffer to avoid glitches
+			// if the player presses the down arrow ~ torck.moveY = 1 the skull can fall through the one sided platform 
 			// possible to do: a short temporary jump lock when the skull reaches the platform might avoid overly 'jumpy' behaviour
-			if (distance > - (torck.size / 2 + 20) + 1) {
+			if (distance > - (torck.size / 2 + 20) + 1
+				|| torck.moveY === 1) {
 				// don't manage the contact
 				contact.SetEnabled(false);
 			}
