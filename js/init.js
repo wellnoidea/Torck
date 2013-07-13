@@ -61,6 +61,7 @@ var offsetY = 0;
 var i = 0;
 var j = 0;
 var jumpLock = -1;
+var blueBrickWallAlpha = 1; // this should really not be on the global scale
 
 var achievementGained = false;
 var debugInfoCalled = false;
