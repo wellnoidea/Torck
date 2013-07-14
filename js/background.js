@@ -69,7 +69,7 @@ function drawBackground(){
 
 function drawForeground(){
 
-	// oscillating ball
+/** /// oscillating ball
 	var x = ((aGroundThing[1].body.GetPosition().x) * SCALE - 2900 - offsetX);
 	var y = ((aGroundThing[1].body.GetPosition().y) * SCALE + 200 - offsetY);
 	var img = document.getElementById('bloeder_ball');
@@ -77,7 +77,7 @@ function drawForeground(){
 	ctx.globalAlpha = Math.sin(oscillationCounter / 100) * Math.sin(oscillationCounter++ / 100);
 	ctx.translate(x , y );
 	ctx.drawImage(img, 0, 0, 50, 50);
-	ctx.restore();
+	ctx.restore(); /**/
 
 	if (achievementGained){
 	var img = document.getElementById('achievement');
