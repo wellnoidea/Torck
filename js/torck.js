@@ -81,7 +81,9 @@ function aBall() {
 
 	    ctx.save();
 	    ctx.translate(x, y); // change origin
-	    ctx.rotate(rotation * 0.8);
+	 //   ctx.rotate(rotation);
+	 	// I slow the rotation of the torck graphic, otherwise it rotates annoyingly fast
+	    ctx.rotate(rotation * 0.75);
 		var img = document.getElementById("king");
 		//******************************************************************************************************************************************
 		ctx.drawImage(img, - 20, - 26, 40, 48);

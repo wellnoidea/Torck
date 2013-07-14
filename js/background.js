@@ -40,18 +40,43 @@ function drawBackground(){
 	ctx.drawImage(img, 0, 0, 500, 300);
 	ctx.restore();/**/
 
+	// shieldBlueSkull
+	var x = ((aGroundThing[1].body.GetPosition().x) * SCALE - 3450 - offsetX);
+	var y = ((aGroundThing[1].body.GetPosition().y) * SCALE + 190 - offsetY);
+	var img = document.getElementById('shieldBlueSkull');
+	ctx.save();
+	ctx.translate(x , y );
+	ctx.drawImage(img, 0, 0, 113, 128);
+	ctx.restore();/**/
+
+	var x = ((aGroundThing[1].body.GetPosition().x) * SCALE - 3150 - offsetX);
+	var y = ((aGroundThing[1].body.GetPosition().y) * SCALE + 190 - offsetY);
+	var img = document.getElementById('shieldBlueSkull');
+	ctx.save();
+	ctx.translate(x , y );
+	ctx.drawImage(img, 0, 0, 100, 116);
+	ctx.restore();/**/
+
+	var x = ((aGroundThing[1].body.GetPosition().x) * SCALE - 3350 - offsetX);
+	var y = ((aGroundThing[1].body.GetPosition().y) * SCALE + 190 - offsetY);
+	var img = document.getElementById('rope');
+	ctx.save();
+	ctx.translate(x , y );
+	ctx.drawImage(img, 0, 0, 210, 34);
+	ctx.restore();/**/
+
 }
 
 function drawForeground(){
 
 	// oscillating ball
-	var x = ((aGroundThing[1].body.GetPosition().x) * SCALE - 3000 - offsetX);
+	var x = ((aGroundThing[1].body.GetPosition().x) * SCALE - 2900 - offsetX);
 	var y = ((aGroundThing[1].body.GetPosition().y) * SCALE + 200 - offsetY);
 	var img = document.getElementById('bloeder_ball');
 	ctx.save();
 	ctx.globalAlpha = Math.sin(oscillationCounter / 100) * Math.sin(oscillationCounter++ / 100);
 	ctx.translate(x , y );
-	ctx.drawImage(img, 0, 0);
+	ctx.drawImage(img, 0, 0, 50, 50);
 	ctx.restore();
 
 	if (achievementGained){
@@ -112,10 +137,6 @@ function drawForeground(){
 	ctx.translate(x , y );
 	ctx.drawImage(img, 0, 0, 500, 300);
 	ctx.restore();/**/
-
-	console.log('abc ' + blueBrickWallAlpha);
-
-
 
 }
 

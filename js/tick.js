@@ -25,7 +25,6 @@ function tick() {
 	// update the easeljs stage
 	stage.update();
 
-	// world.DrawDebugData();
 	
 	drawBackground(); // ooohhhhh bad practice, not even an object!
 
@@ -41,6 +40,16 @@ function tick() {
 
 	torck.draw();
 	drawForeground();
+
+	if (debugDrawMode){
+		var x = ((aGroundThing[1].body.GetPosition().x) * SCALE + 500 - offsetX);
+		var y = ((aGroundThing[1].body.GetPosition().y) * SCALE + 300 - offsetY);
+		var img = document.getElementById('mun');
+		ctx.save();
+		ctx.translate(x , y );
+		world.DrawDebugData();
+		ctx.restore();
+	}
 
 	// Increment or step our physics world forward
 		// Time step here equal to the FPS

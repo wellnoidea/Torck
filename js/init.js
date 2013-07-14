@@ -11,20 +11,26 @@ Also see category and group filtering
 
 Not implemented yet!
 
-Bit 		used by 			in use
- 1 	    1 	Torck 				y
- 2 	    2 	Ground I 			y
- 3 	    4 	Ground II 			-
- 4 	    8 	Ground III (?) 		-
- 5 	   16 	Sensors I 			y
- 6 	   32 	Sensors II (?)		-
- 7 	   64 	Sensors III (?)		-
- 8 	  128 	Fluff I 			y
- 9 	  256 	Fluff II (?)		-
-10 	 1024 	Fluff III (?)		-
-11   2048 	
-12   4096 	
-13 	
+Fluff is for objects interacting with the world but not torck
+Maybe a second category interacting with the static but not dynamic objects might be interesting
+I'm not quite sure if three categories are really necessary, or if two might be enough
+
+I have no idea what cinematic objects are...
+
+Bit 		used by 				in use
+ 1 	    1 	Torck 					-
+ 2 	    2 	Ground I 				-
+ 3 	    4 	Ground II 				-
+ 4 	    8 	Ground III (?) 			-
+ 5 	   16 	Sensors I 				-
+ 6 	   32 	Sensors II (?)			-
+ 7 	   64 	Sensors III (?)			-
+ 8 	  128 	Fluff I 				-
+ 9 	  256 	Fluff II (?)			-
+10 	 1024 	Fluff III (?)			-
+11   2048 	Physics Objects I 		-
+12   4096 	Physics Objects II 		-	
+13 			Physics Objects III 	-
 14 	
 15 	
 16 	
@@ -66,6 +72,7 @@ var blueBrickWallAlpha = 1; // this should really not be on the global scale
 var achievementGained = false;
 var debugInfoCalled = false;
 var oscillationCounter = 0;
+var debugDrawMode = false;
 
 //The tick function provided by easeljs
 // Lookin for a global function called tick on the global scope
