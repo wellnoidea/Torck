@@ -58,8 +58,9 @@ ctx.fillRect(0,0,150,75);
 // stage: the easeljs stage to be used
 // world: the box2d world
 // Defined on the global scope for referencing elsewhere this is for demonstration reasons only, normally better capsulated (?)
-var stage, world, thingy, torck, debugDraw;
+var stage, world, thingy,  debugDraw;
 var aGroundThing = new Array(); // Better take an object in the long run
+var torck = new Array();
 var aWritingOnTheWall = new Array(); // Better take an object in the long run
 //var groundElements = new Array();
 var offsetX = 0;
@@ -73,6 +74,9 @@ var achievementGained = false;
 var debugInfoCalled = false;
 var oscillationCounter = 0;
 var debugDrawMode = false;
+var currentTorck = 0;
+var numberOfTorcks = 0;
+var superTorckMode = false;
 
 //The tick function provided by easeljs
 // Lookin for a global function called tick on the global scope
@@ -93,19 +97,120 @@ function init() {
 	// The physics world
 	setupPhysics();
 
+	// zero object
+	aGroundThing[++i] = new aGroundII("eroded_wood", true, 0, 0, 10, 10, false, 1, 0, 1, 3, -1);
+
 	////////// Torck! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Since it's the player torck gets his own definition
-	// Singleton style
-	torck = new aBall;
 
+//	WET WET WET !!!!
+
+	torck[currentTorck] = new aBall(2.345);
+	////////// Aaand Now to a Decent Jump Sensor! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	/* the jump sensor needs to be situated underneath torck all the time
+	 * thus additional fixtures on it are not going to work since they will rotate with torck in unisono
+	 * therefore I'll use a revolute joint putting a fixed rotation sensor on torck 
+	 *		// argh, the internetz gets me distracted every time...   *_*
+	 * the current configuration prevents wall crawling and sticking on ceilings, but at least the latter should be reintroduced   :)
+	 * DO NOT COMMENT THIS SECTION! or jumping will fail
+	 */
+	// the sensor is slightly smaller (-1) than torck to avoid a feedback when next to walls to avoid wall crawling
+	// the sensor is placed slightly below torck (+1) to stick out and get an overlap with the ground
+	aGroundThing[++i] = new aSensor("bloeder_ball", false, torck[currentTorck].startX, torck[currentTorck].startY + 1, torck[currentTorck].size - 1, 0, true, 0.1, 0.3, 1, 2, -1); 
+	// fix the rotational degree of freedom to always have it underneath
+	aGroundThing[i].body.SetFixedRotation(true);
+	aGroundThing[i].body.SetUserData('infraSensor'); // the infra- is the lower sensor, the jump sensor
+	aGroundThing[i].body.helloMyNumberIs = currentTorck;
+	console.log(aGroundThing[i].body);//#delendum
+	// pin it onto torck with a slight offset downwards (to-do)
+	var joint = new box2d.b2RevoluteJointDef();
+	joint.Initialize(aGroundThing[i].body, torck[currentTorck].body, torck[currentTorck].body.GetWorldCenter());
+	this.world.CreateJoint(joint)
+
+
+
+
+
+	torck[++currentTorck] = new aBall(0.01);
+	torck[currentTorck].jumpImpulse = 4;
+	torck[currentTorck].torque = 5;
+	torck[currentTorck].speedLimiter = 0.8;
+	torck[currentTorck].skin = 'skull';
+	torck[currentTorck].skinStretchY = 45; 
+	torck[currentTorck].skinPosY = -21;
+	////////// Aaand Now to a Decent Jump Sensor! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	/* the jump sensor needs to be situated underneath torck all the time
+	 * thus additional fixtures on it are not going to work since they will rotate with torck in unisono
+	 * therefore I'll use a revolute joint putting a fixed rotation sensor on torck 
+	 *		// argh, the internetz gets me distracted every time...   *_*
+	 * the current configuration prevents wall crawling and sticking on ceilings, but at least the latter should be reintroduced   :)
+	 * DO NOT COMMENT THIS SECTION! or jumping will fail
+	 */
+	// the sensor is slightly smaller (-1) than torck to avoid a feedback when next to walls to avoid wall crawling
+	// the sensor is placed slightly below torck (+1) to stick out and get an overlap with the ground
+	aGroundThing[++i] = new aSensor("bloeder_ball", false, torck[currentTorck].startX, torck[currentTorck].startY + 1, torck[currentTorck].size - 1, 0, true, 0.1, 0.3, 1, 2, -1); 
+	// fix the rotational degree of freedom to always have it underneath
+	aGroundThing[i].body.SetFixedRotation(true);
+	aGroundThing[i].body.SetUserData('infraSensor'); // the infra- is the lower sensor, the jump sensor
+	aGroundThing[i].body.helloMyNumberIs = currentTorck;
+	console.log(aGroundThing[i].body);//#delendum
+	// pin it onto torck with a slight offset downwards (to-do)
+	var joint = new box2d.b2RevoluteJointDef();
+	joint.Initialize(aGroundThing[i].body, torck[currentTorck].body, torck[currentTorck].body.GetWorldCenter());
+	this.world.CreateJoint(joint)
+
+
+
+
+	// Since it's the player torck gets his own definition
+	// Singleton style no more
+	torck[++currentTorck] = new aBall(500);
+	torck[currentTorck].jumpImpulse = 17000;
+	torck[currentTorck].torque = 10000;
+	torck[currentTorck].speedLimiter = 5000000;
+	torck[currentTorck].skin = 'ork';
+	torck[currentTorck].skinStretchY = 52; 
+	torck[currentTorck].skinStretchX = 52; 
+	torck[currentTorck].skinPosX = -26;
+	torck[currentTorck].skinPosY = -32;
+	////////// Aaand Now to a Decent Jump Sensor! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+	/* the jump sensor needs to be situated underneath torck all the time
+	 * thus additional fixtures on it are not going to work since they will rotate with torck in unisono
+	 * therefore I'll use a revolute joint putting a fixed rotation sensor on torck 
+	 *		// argh, the internetz gets me distracted every time...   *_*
+	 * the current configuration prevents wall crawling and sticking on ceilings, but at least the latter should be reintroduced   :)
+	 * DO NOT COMMENT THIS SECTION! or jumping will fail
+	 */
+	// the sensor is slightly smaller (-1) than torck to avoid a feedback when next to walls to avoid wall crawling
+	// the sensor is placed slightly below torck (+1) to stick out and get an overlap with the ground
+	aGroundThing[++i] = new aSensor("bloeder_ball", false, torck[currentTorck].startX, torck[currentTorck].startY + 1, torck[currentTorck].size - 1, 0, true, 0.1, 0.3, 1, 2, -1); 
+	// fix the rotational degree of freedom to always have it underneath
+	aGroundThing[i].body.SetFixedRotation(true);
+	aGroundThing[i].body.SetUserData('infraSensor'); // the infra- is the lower sensor, the jump sensor
+	aGroundThing[i].body.helloMyNumberIs = currentTorck;
+	console.log(aGroundThing[i].body);//#delendum
+	// pin it onto torck with a slight offset downwards (to-do)
+	var joint = new box2d.b2RevoluteJointDef();
+	joint.Initialize(aGroundThing[i].body, torck[currentTorck].body, torck[currentTorck].body.GetWorldCenter());
+	this.world.CreateJoint(joint)
+
+
+	
+
+
+
+
+
+
+
+	numberOfTorcks = currentTorck;
+	currentTorck = 0;
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 	// (imageID, isSquare, posX, posY, sizeX, sizeY, isDynamic, density, restitution, friction, filterCategory, filterMask)
 	
-	// zero object
-	aGroundThing[++i] = new aGroundII("eroded_wood", true, 0, 0, 10, 10, false, 1, 0, 1, 3, -1);
+	
 	aGroundThing[++i] = new aGroundII("eroded_wood", true, 0, 0, 10, 10, false, 1, 0, 1, 3, -1);
 	// Lowest Ground
 	aGroundThing[++i] = new aGroundII("eroded_wood", true, 2000, 600, 2000, 20, false, 1, 0, 1, 3, -1); 
@@ -127,7 +232,7 @@ function init() {
 
 	////////// Let's Make Some Joints! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 	// http://blog.sethladd.com/2011/09/box2d-and-joints-for-javascript.html
-	/**/
+	/** /
 	aGroundThing[++i] = new aGroundII("oldGreyWood", true, 600, 250, 100, 5, true, 0.1, 0.3, 1, 2, -1);
 	aGroundThing[++i] = new aGroundII("wagonWheel_01", false, 500, 250, 40, 0, true, 0.1, 0.1, 1, 2, -1);
 	aGroundThing[++i] = new aGroundII("wagonWheel_02", false, 700, 250, 40, 0, true, 0.1, 0.1, 1, 2, -1);
@@ -154,7 +259,7 @@ function init() {
 	////////// Filtered Apples! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// those apples are not only mere decoration but also a test for filtering
 	// best enjoyed on the cart from the Let's Make Some Joints! section
-	/**/
+	/** /
 	aGroundThing[++i] = new aGroundII("appleGreen", false, 600, 250, 8, 25, true, 0.1, 0.2, 1, 2, 2);
 	aGroundThing[++i] = new aGroundII("appleGreen", false, 600, 250, 9, 25, true, 0.1, 0.2, 1, 2, 2);
 	aGroundThing[++i] = new aGroundII("appleGreen", false, 600, 250, 9, 25, true, 0.1, 0.2, 1, 2, 2);
@@ -170,25 +275,7 @@ function init() {
 	aGroundThing[++i] = new aGroundII("appleRed", false, 800, 250, 11, 25, true, 0.1, 0.2, 1, 0.01, 5);
 	/**/
 
-	////////// Aaand Now to a Decent Jump Sensor! //////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-	/* the jump sensor needs to be situated underneath torck all the time
-	 * thus additional fixtures on it are not going to work since they will rotate with torck in unisono
-	 * therefore I'll use a revolute joint putting a fixed rotation sensor on torck 
-	 *		// argh, the internetz gets me distracted every time...   *_*
-	 * the current configuration prevents wall crawling and sticking on ceilings, but at least the latter should be reintroduced   :)
-	 * DO NOT COMMENT THIS SECTION! or jumping will fail
-	 */
-	// the sensor is slightly smaller (-1) than torck to avoid a feedback when next to walls to avoid wall crawling
-	// the sensor is placed slightly below torck (+1) to stick out and get an overlap with the ground
-	aGroundThing[++i] = new aSensor("bloeder_ball", false, torck.startX, torck.startY + 1, torck.size - 1, 0, true, 0.1, 0.3, 1, 2, -1); 
-	// fix the rotational degree of freedom to always have it underneath
-	aGroundThing[i].body.SetFixedRotation(true);
-	aGroundThing[i].body.SetUserData('infraSensor'); // the infra- is the lower sensor, the jump sensor
-	console.log(aGroundThing[i].body);//#delendum
-	// pin it onto torck with a slight offset downwards (to-do)
-	var joint = new box2d.b2RevoluteJointDef();
-	joint.Initialize(aGroundThing[i].body, torck.body, torck.body.GetWorldCenter());
-	this.world.CreateJoint(joint)
+	
 
 	////////// A One Sided Platform, a True Classic //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// http://www.emanueleferonato.com/2010/03/02/understanding-box2ds-one-way-platforms-aka-clouds/
@@ -221,7 +308,7 @@ function init() {
 	aGroundThing[i].body.SetAngle(0.7);
 	aGroundThing[++i] = new aGroundII("eroded_wood", true, -2500, -680, 100, 10, false, 1, 0, 1, 3, -1); 
 	aGroundThing[i].body.SetAngle(0.9);
-
+/** /
 	aGroundThing[++i] = new aGroundII("schaumstoff", true, -200, -500, 25, 25, true, 0.02, 0.9, 1, 2, -1); 
 	aGroundThing[++i] = new aGroundII("schaumstoff", true, -400, -500, 50, 50, true, 0.02, 0.9, 1, 2, -1); 
 	aGroundThing[++i] = new aGroundII("schaumstoff", true, -600, -500, 75, 75, true, 0.02, 0.9, 1, 2, -1); 
@@ -235,7 +322,7 @@ function init() {
 	aGroundThing[++i] = new aGroundII("eis", true, -2400, 0, 50, 50, true, 1, 0, 0.001, 2, -1); 
 	aGroundThing[++i] = new aGroundII("eis", true, -2600, 0, 75, 75, true, 1, 0, 0.001, 2, -1);
 	aGroundThing[++i] = new aGroundII("eis", true, -2800, 0, 75, 5, true, 1, 0, 0.001, 2, -1);
-
+/**/
 	// stairway to the playground
 	aGroundThing[++i] = new aGroundII("metal", true, 30, 150, 20, 10, false, 0.1, 0, 1, 1, -1);
 	aGroundThing[i].body.SetUserData('oneSidedUpDown'); // UpDown states the solid direction
@@ -250,9 +337,9 @@ function init() {
 
 	aWritingOnTheWall[++j] = new aWriting(0, 0, 'Null/Null')
 	aWritingOnTheWall[++j] = new aWriting(-3200, -200, 'Filter Tests')
-	aWritingOnTheWall[++j] = new aWriting(-3200, -180, 'categoryBits: ' + torck.body.GetFixtureList().GetFilterData().categoryBits)
-	aWritingOnTheWall[++j] = new aWriting(-3200, -160, 'groupIndex:   ' + torck.body.GetFixtureList().GetFilterData().groupIndex)
-	aWritingOnTheWall[++j] = new aWriting(-3200, -140, 'maskBits:     ' + torck.body.GetFixtureList().GetFilterData().maskBits)
+	aWritingOnTheWall[++j] = new aWriting(-3200, -180, 'categoryBits: ' + torck[currentTorck].body.GetFixtureList().GetFilterData().categoryBits)
+	aWritingOnTheWall[++j] = new aWriting(-3200, -160, 'groupIndex:   ' + torck[currentTorck].body.GetFixtureList().GetFilterData().groupIndex)
+	aWritingOnTheWall[++j] = new aWriting(-3200, -140, 'maskBits:     ' + torck[currentTorck].body.GetFixtureList().GetFilterData().maskBits)
 
     this.world.SetContactListener(listener);
 

@@ -131,6 +131,7 @@ function aSensor(imageID, isSquare, posX, posY, sizeX, sizeY, isDynamic, density
 	bodyDef.position.x = posX / SCALE;	
 	bodyDef.position.y = posY / SCALE;
 	bodyDef.userData = 'sensor';
+//	bodyDef.defunc = function{alert('abc')};
 	//bodyDef.linearDamping = 1000;
 
 	// create a body into the box2d world

@@ -115,13 +115,18 @@ function drawForeground(){
 	ctx.font = "bold 16px Arial";
 	ctx.fillText(Math.ceil(createjs.Ticker.getMeasuredFPS()), 10, 20);
 
+	if (superTorckMode){
+		ctx.font = "bold 24px Arial";
+		ctx.fillText('SUPER TORCK MODE', 20, 40);
+	}/**/
+
 	// blue brick wall
 	var x = ((aGroundThing[1].body.GetPosition().x) * SCALE - 3500 - offsetX);
 	var y = ((aGroundThing[1].body.GetPosition().y) * SCALE + 140 - offsetY);
 	var img = document.getElementById('blueBrickWall');
 	ctx.save();
-	var torckIsInside = Boolean ((torck.body.GetPosition().x * SCALE) < -3500
-		&& (torck.body.GetPosition().x * SCALE) > -4000);
+	var torckIsInside = Boolean ((torck[currentTorck].body.GetPosition().x * SCALE) < -3500
+		&& (torck[currentTorck].body.GetPosition().x * SCALE) > -4000);
 
 	if (torckIsInside && blueBrickWallAlpha > 0.01){
 		blueBrickWallAlpha = blueBrickWallAlpha - 0.01;

@@ -9,18 +9,27 @@ function tick() {
 		debugInfo();
 	}
 
-	torck.move();
+	if (superTorckMode){
+		for (var i=0;i<=numberOfTorcks;i++){ 
+			torck[i].moveX = torck[currentTorck].moveX;
+			torck[i].moveY = torck[currentTorck].moveY;
+			torck[i].move();
+		}
+	} else {
+		torck[currentTorck].move();
+	}
+	
 	jumpLock--;
-	if (torck.body.GetPosition().x < -350 || torck.body.GetPosition().x > 150) { achievementGained = true };
+	if (torck[currentTorck].body.GetPosition().x < -350 || torck[currentTorck].body.GetPosition().x > 150) { achievementGained = true };
 
 	// the offset gives the screen the delayed smooth following of torck, increase the last number for longer delays
-	// before the offset calculation was in the torck.draw function, but that caused an artificial position difference between positions of 
+	// before the offset calculation was in the torck[currentTorck].draw function, but that caused an artificial position difference between positions of 
 	// objects beeing drawn before and after the calculation
-	offsetX = offsetX + (torck.body.GetPosition().x * SCALE - offsetX) / 10;
+	offsetX = offsetX + (torck[currentTorck].body.GetPosition().x * SCALE - offsetX) / 10;
 	// decentreY moves the point where torck sits on the screen
 	var decentreY = 100;
 	offsetY = offsetY + decentreY;
-	offsetY = offsetY + (torck.body.GetPosition().y * SCALE - offsetY) / 10;
+	offsetY = offsetY + (torck[currentTorck].body.GetPosition().y * SCALE - offsetY) / 10;
 	offsetY = offsetY - decentreY;
 	// update the easeljs stage
 	stage.update();
@@ -38,7 +47,10 @@ function tick() {
 		aWritingOnTheWall[key].draw();
 	}
 
-	torck.draw();
+	for (var i=0;i<=numberOfTorcks;i++){ 
+		torck[i].draw();
+	}
+	
 	drawForeground();
 
 	if (debugDrawMode){

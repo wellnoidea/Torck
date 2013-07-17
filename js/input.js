@@ -13,16 +13,16 @@ http://www.mediaevent.de/javascript/Extras-Javascript-Keycodes.html
 $(document).keydown(function(e) {
 	switch(e.keyCode) {
 		case 37:
-			torck.moveX = 1;
+			torck[currentTorck].moveX = 1;
 			break;
 		case 38:
-			torck.moveY = -1;
+			torck[currentTorck].moveY = -1;
 			break;
 		case 39:
-			torck.moveX = -1;
+			torck[currentTorck].moveX = -1;
 			break;
 		case 40:
-			torck.moveY = 1;
+			torck[currentTorck].moveY = 1;
 			break;
 		case 49: // key: 1
 			debugInfoCalled = true;
@@ -32,7 +32,20 @@ $(document).keydown(function(e) {
 			break;
 		case 51: // key: 3
 			debugDrawMode = ! debugDrawMode;
-			break;			
+			break;	
+		case 13: // key: enter		
+			if (superTorckMode){
+				superTorckMode = false;
+			} else {
+				currentTorck++;	
+			}
+
+			if (currentTorck>numberOfTorcks){
+				currentTorck = 0;
+				superTorckMode = true;
+			}
+			console.log(superTorckMode);
+			break;		/**/
 	}
 	return false;
 });
@@ -40,16 +53,16 @@ $(document).keydown(function(e) {
 $(document).keyup(function(e){
 	switch(e.keyCode) {
 		case 37:
-			torck.moveX = 0;
+			torck[currentTorck].moveX = 0;
 			break;
 		case 38:
-			torck.moveY = 0;
+			torck[currentTorck].moveY = 0;
 			break;
 		case 39:
-			torck.moveX = 0;
+			torck[currentTorck].moveX = 0;
 			break;
 		case 40:
-			torck.moveY = 0;
+			torck[currentTorck].moveY = 0;
 			break;
 	}
 	return false;

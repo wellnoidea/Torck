@@ -4,14 +4,23 @@
 
 // Torck is the name of the skull, aBall its 'class'
 
-function aBall() {
+function aBall(density) {
+	this.helloMyNumberIs = currentTorck;
 	this.moveX = 0;
 	this.moveY = 0;
 	this.size = 20;
-	this.startX = -3000;
-	this.startY = 100;
+	this.startX = -5000 + currentTorck * 2000;
+	this.startY = -200;
 	this.contacts = 0;
-
+	this.skin = 'king';
+	this.skinStretchX = 40;
+	this.skinStretchY = 48;
+	this.skinPosX = -20;
+	this.skinPosY = -26;
+	this.jumpImpulse = 80;
+	this.torque = 80;
+	this.speedLimiter = 240;
+	this.jumpLock = 0;
 
 
 	// 	- Needs a fixture definition (densitiy, friction, restitution)
@@ -19,7 +28,7 @@ function aBall() {
 	// Define the fixture
 	var fixDef = new box2d.b2FixtureDef()
 	// set properties
-	fixDef.density = 2.3456;
+	fixDef.density = density;
 //	fixDef.userData = 'Torck';
 //	fixDef.name = 'Torck';
 	fixDef.friction = 0.4;
@@ -31,7 +40,7 @@ function aBall() {
 
 	var fixDefII = new box2d.b2FixtureDef();
 
-	/* Kreis als Kopf */
+
 	fixDefII.shape = new box2d.b2CircleShape();
 	fixDefII.shape.SetRadius(this.size / SCALE);
 	fixDefII.shape.SetLocalPosition(new box2d.b2Vec2(0 / SCALE, 20 / SCALE));
@@ -46,6 +55,7 @@ function aBall() {
 	bodyDef.position.x = this.startX / SCALE;	
 	bodyDef.position.y = this.startY / SCALE;
 	bodyDef.userData = 'torck';
+	
 
 	// create a body into the box2d world
 	var b = world.CreateBody( bodyDef );
@@ -84,9 +94,9 @@ function aBall() {
 	 //   ctx.rotate(rotation);
 	 	// I slow the rotation of the torck graphic, otherwise it rotates annoyingly fast
 	    ctx.rotate(rotation * 0.75);
-		var img = document.getElementById("king");
+		var img = document.getElementById(this.skin);
 		//******************************************************************************************************************************************
-		ctx.drawImage(img, - 20, - 26, 40, 48);
+		ctx.drawImage(img, this.skinPosX, this.skinPosY, this.skinStretchX, this.skinStretchY);
 		ctx.restore();
 
 
@@ -95,6 +105,8 @@ function aBall() {
 	} 
 
 	this.move = function () {
+
+		this.jumpLock--;
 
 		var vorzeichen = 0;
 		if (this.body.GetLinearVelocity().x > 0){
@@ -106,7 +118,7 @@ function aBall() {
 		{
 			force = new box2d.b2Vec2(-this.moveX * 100 , 0);
 		//	if (this.body.GetLinearVelocity().y < 0.1 && this.body.GetLinearVelocity().y > -0.1 ){
-				this.body.ApplyTorque(( - this.moveX * 80) - this.body.GetAngularVelocity() * 3  );
+				this.body.ApplyTorque(( - this.moveX * this.torque) - this.body.GetAngularVelocity() * this.speedLimiter / this.torque );
 		//	}
 			//this.body.ApplyForce(force, this.body.GetPosition());
 			//this.body.GetPosition()
@@ -114,11 +126,11 @@ function aBall() {
 
 		// Yay! Jumping!
 		if (this.moveY === -1){
-			force = new box2d.b2Vec2(0, -80);
+			force = new box2d.b2Vec2(0, -this.jumpImpulse);
 			// this.body.GetLinearVelocity().y > -15 avoids torck skyrocketing, you may only jump if you're not already rising fast
-			if (this.contacts > 0 && this.body.GetLinearVelocity().y > -15 && jumpLock < 0){
+			if (this.contacts > 0 && this.body.GetLinearVelocity().y > -15 && this.jumpLock < 0){
 				this.body.ApplyImpulse(force, this.body.GetPosition());
-				jumpLock = 25;
+				this.jumpLock = 25;
 			} else {
 				
 			}
